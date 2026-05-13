@@ -5,7 +5,7 @@
 - Add "Add Client" button and modal
 - Add client edit button and modal
 - Introduced shared CreatePersonModal and EditPersonModal components — both employees and clients use identical form fields and the same Redux actions, so rather than duplicating the dialog code, the modals accept title, sectionLabel, and onSubmit as props to cover both cases
--Fix createClient Redux action not closing the modal on success
+- Fix createClient Redux action not closing the modal on success
 
 # Test
 
