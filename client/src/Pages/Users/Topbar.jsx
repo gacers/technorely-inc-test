@@ -5,13 +5,17 @@ import { Path } from "../../utils";
 import { Chip, FormControl, Input, InputAdornment, Tooltip } from "@mui/material";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { FiFilter } from "react-icons/fi";
-import CreateUser from "./CreateEmployee";
+import CreatePersonModal from "./CreatePersonModal";
+import { useDispatch, useSelector } from "react-redux";
+import { createEmployee, createClient } from "../../redux/action/user";
 import Filter from "./Filter";
 import { searchUserReducer } from "../../redux/reducer/user";
 
 const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
 
   ///////////////////////////////////////// VARIABLES ///////////////////////////////////////////////////
+  const dispatch = useDispatch();
+  const { isFetching } = useSelector((state) => state.user);
   const { pathname } = useLocation();
   const pathArr = pathname.split("/").filter((item) => item != "");
   const showClientTopBar = !pathArr.includes("employees");
@@ -24,8 +28,10 @@ const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
 
   ///////////////////////////////////////// STATES ///////////////////////////////////////////////////
   const [open, setOpen] = useState(false);
-  const [openFilters, setOpenFilters] = useState(false);
   const [scroll, setScroll] = useState("paper");
+  const [openClient, setOpenClient] = useState(false);
+  const [scrollClient, setScrollClient] = useState("paper");
+  const [openFilters, setOpenFilters] = useState(false);
 
   ///////////////////////////////////////// USE EFFECTS ///////////////////////////////////////////////////
   useEffect(() => {
@@ -48,6 +54,11 @@ const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
   const handleCreateopen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
+  };
+
+  const handleCreateClientOpen = (scrollType) => () => {
+    setOpenClient(true);
+    setScrollClient(scrollType);
   };
 
   return (
@@ -120,10 +131,30 @@ const Topbar = ({ view, setView, setIsFiltered, isFiltered }) => {
                 />
               </FormControl>
             </div>
+            <div>
+              <Tooltip title="Add New Client" placement="top" arrow>
+                <div onClick={handleCreateClientOpen("body")}>
+                  <button className="bg-primary-red hover:bg-red-400 transition-all text-white w-[44px] h-[44px] flex justify-center items-center rounded-full shadow-xl">
+                    <Add />
+                  </button>
+                </div>
+              </Tooltip>
+            </div>
           </div>
         )}
       </div>
-      <CreateUser open={open} scroll={scroll} setOpen={setOpen} />
+      <CreatePersonModal
+        open={open} scroll={scroll} setOpen={setOpen}
+        title="Add New Employee" sectionLabel="Employee Details"
+        isFetching={isFetching}
+        onSubmit={(data, setOpen) => dispatch(createEmployee(data, setOpen))}
+      />
+      <CreatePersonModal
+        open={openClient} scroll={scrollClient} setOpen={setOpenClient}
+        title="Add New Client" sectionLabel="Client Details"
+        isFetching={isFetching}
+        onSubmit={(data, setOpen) => dispatch(createClient(data, setOpen))}
+      />
       <Filter open={openFilters} setOpen={setOpenFilters} setIsFiltered={setIsFiltered} />
     </div>
   );

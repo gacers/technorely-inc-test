@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getEmployees } from "../../redux/action/user";
 import DeleteEmployee from "./Delete";
-import EditEmployee from "./Edit";
+import EditPersonModal from "./EditPersonModal";
 import { getEmployeesReducer, getUserReducer } from "../../redux/reducer/user";
 import { IconButton, Tooltip } from "@mui/material";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
@@ -132,7 +132,7 @@ const Employees = memo(() => {
 
   return (
     <div className="w-full">
-      <EditEmployee open={openEditModal} setOpen={setOpenEditModal} />
+      <EditPersonModal open={openEditModal} setOpen={setOpenEditModal} title="Edit Employee" sectionLabel="Employee Details" />
       <DeleteEmployee open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
       <User open={openView} setOpen={setOpenViewk} />
 

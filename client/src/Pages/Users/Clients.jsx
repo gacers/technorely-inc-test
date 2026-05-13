@@ -13,6 +13,7 @@ import { Dropdown, Menu, MenuButton, MenuItem, menuItemClasses } from "@mui/base
 import Filter from "./Filter";
 import User from "./User";
 import DeleteClient from "./Delete";
+import EditPersonModal from "./EditPersonModal";
 
 const blue = {
   100: "#DAECFF",
@@ -149,6 +150,12 @@ const Clients = () => {
               />
             </Tooltip>
           }
+          <Tooltip placement="top" title="Edit" arrow>
+            <CiEdit
+              onClick={() => handleOpenEditModal(params.row)}
+              className="cursor-pointer text-green-500 text-[23px] hover:text-green-600"
+            />
+          </Tooltip>
         </div>
       ),
     },
@@ -186,6 +193,7 @@ const Clients = () => {
   return (
     <div className="w-full">
 
+      <EditPersonModal open={openEditModal} setOpen={setOpenEditModal} title="Edit Client" sectionLabel="Client Details" />
       <DeleteClient open={openDeleteModal} setOpen={setOpenDeleteModal} userId={selectedUserId} />
       <Filter open={openFilters} setOpen={setOpenFilters} />
       <User open={openUser} setOpen={setOpenUser} />
